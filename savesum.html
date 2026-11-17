@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SaveSum – Micro-Savings & Insurance for Gig Workers</title>
+<style>
+:root{--navy:#0B132B;--navy2:#111c3d;--navy3:#1a2650;--em:#10B981;--em2:#34d399;--tx:#e6ebf5;--mut:#93a0bd;--bd:rgba(255,255,255,.09);--warn:#f59e0b;--r:16px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--navy);color:var(--tx);line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;color:inherit}
+.wrap{width:min(1120px,92%);margin:auto}
+section{padding:72px 0}
+h1,h2,h3{line-height:1.2}
+h2{font-size:clamp(1.6rem,4vw,2.2rem);margin-bottom:10px}
+.sub{color:var(--mut);max-width:620px;margin-bottom:34px}
+.tag{display:inline-block;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--em);font-weight:700;margin-bottom:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;font-weight:600;transition:.25s;background:var(--em);color:#04231a}
+.btn:hover{background:var(--em2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(16,185,129,.3)}
+.btn.ghost{background:transparent;border:1px solid var(--bd);color:var(--tx)}
+.btn.ghost:hover{border-color:var(--em);box-shadow:none;background:rgba(16,185,129,.08)}
+.card{background:var(--navy2);border:1px solid var(--bd);border-radius:var(--r);padding:24px;transition:.25s}
+header{position:sticky;top:0;z-index:50;background:rgba(11,19,43,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:800;font-size:1.3rem;display:flex;align-items:center;gap:8px}
+.logo i{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--em),#059669);display:grid;place-items:center;color:#04231a;font-style:normal;font-size:1rem}
+.logo b{color:var(--em)}
+nav ul{display:none;list-style:none;gap:26px}
+nav a{color:var(--mut);font-size:.95rem;transition:.2s}
+nav a:hover{color:var(--em)}
+.menu{background:none;font-size:1.6rem;display:block}
+.nav .btn{display:none}
+nav.open ul{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:var(--navy2);padding:18px 4%;border-bottom:1px solid var(--bd)}
+@media(min-width:820px){nav ul{display:flex}.menu{display:none}.nav .btn{display:inline-flex}}
+.hero{padding:64px 0 48px;background:radial-gradient(800px 400px at 80% -10%,rgba(16,185,129,.18),transparent),var(--navy)}
+.hero .grid{display:grid;gap:36px;align-items:center}
+.hero h1{font-size:clamp(2rem,6vw,3.3rem);margin-bottom:16px}
+.hero h1 span{color:var(--em)}
+.hero p{color:var(--mut);margin-bottom:24px;max-width:540px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.live{background:linear-gradient(160deg,var(--navy3),var(--navy2));border:1px solid var(--bd);border-radius:24px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.live small{color:var(--mut)}
+.live .amt{font-size:2.8rem;font-weight:800;color:var(--em);font-variant-numeric:tabular-nums}
+.sw{display:flex;align-items:center;justify-content:space-between;margin-top:18px;padding:14px 16px;background:rgba(255,255,255,.04);border-radius:12px}
+.toggle{width:50px;height:28px;border-radius:99px;background:#33405f;position:relative;transition:.25s;flex:none}
+.toggle::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.25s}
+.toggle.on{background:var(--em)}.toggle.on::after{left:25px}
+.pulse{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--em);margin-right:6px;animation:p 1.4s infinite}
+.off .pulse{background:#64708f;animation:none}
+@keyframes p{50%{opacity:.3;transform:scale(1.6)}}
+@media(min-width:900px){.hero .grid{grid-template-columns:1.2fr .8fr}}
+.calc{display:grid;gap:24px}
+@media(min-width:900px){.calc{grid-template-columns:1fr 1fr}}
+.field{margin-bottom:26px}
+.field label{display:flex;justify-content:space-between;margin-bottom:10px;color:var(--mut)}
+.field label b{color:var(--em);font-size:1.15rem}
+input[type=range]{width:100%;-webkit-appearance:none;height:8px;border-radius:99px;background:linear-gradient(90deg,var(--em) var(--p,0%),#2a3558 var(--p,0%));outline:0}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;border:4px solid var(--em);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:4px solid var(--em);cursor:pointer}
+.outs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+.out{background:rgba(255,255,255,.04);border-radius:12px;padding:16px}
+.out small{color:var(--mut);display:block}.out strong{font-size:1.5rem;font-variant-numeric:tabular-nums}
+.tier{text-align:center;padding:22px;border-radius:14px;border:1px solid var(--bd);transition:.3s}
+.tier .ico{font-size:2.2rem}.tier h3{font-size:1.5rem;margin:4px 0}
+.tier.locked{background:rgba(255,255,255,.03)}
+.tier.bronze{background:rgba(205,127,50,.15);border-color:#cd7f32}
+.tier.silver{background:rgba(190,200,220,.14);border-color:#c0c8d8}
+.tier.gold{background:rgba(245,185,40,.15);border-color:#f5b928}
+.bar{height:8px;border-radius:99px;background:#2a3558;margin:14px 0 6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--em);width:0;transition:width .4s}
+.note{font-size:.8rem;color:var(--mut)}
+.feat{display:grid;gap:18px}
+@media(min-width:640px){.feat{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.feat{grid-template-columns:repeat(4,1fr)}}
+.feat .card:hover{transform:translateY(-6px);border-color:var(--em)}
+.feat .ico{width:48px;height:48px;border-radius:12px;background:rgba(16,185,129,.14);display:grid;place-items:center;font-size:1.5rem;margin-bottom:14px}
+.feat h3{font-size:1.05rem;margin-bottom:6px}.feat p{color:var(--mut);font-size:.92rem}
+.tabs{display:inline-flex;background:var(--navy2);border:1px solid var(--bd);border-radius:99px;padding:5px;margin-bottom:26px}
+.tabs button{background:none;padding:10px 22px;border-radius:99px;color:var(--mut);font-weight:600;transition:.25s}
+.tabs button.on{background:var(--em);color:#04231a}
+.pane{display:none;animation:f .4s}.pane.on{display:grid;gap:18px}
+@keyframes f{from{opacity:0;transform:translateY(8px)}}
+@media(min-width:760px){.pane.on{grid-template-columns:1fr 1fr}}
+.pane ul{list-style:none}
+.pane li{padding:10px 0 10px 30px;position:relative;border-bottom:1px solid var(--bd);color:var(--mut)}
+.pane li:last-child{border:0}
+.pane li::before{content:"✓";position:absolute;left:0;color:var(--em);font-weight:800}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.chips span{padding:6px 14px;border-radius:99px;background:rgba(16,185,129,.12);color:var(--em);font-size:.85rem;font-weight:600}
+.strip{background:linear-gradient(90deg,var(--navy2),var(--navy3));border-block:1px solid var(--bd);padding:44px 0}
+.mets{display:grid;gap:20px;text-align:center}
+@media(min-width:700px){.mets{grid-template-columns:repeat(4,1fr)}}
+.mets b{display:block;font-size:2.1rem;color:var(--em);font-variant-numeric:tabular-nums}
+.mets span{color:var(--mut);font-size:.9rem}
+.prev{display:grid;gap:30px;align-items:center}
+@media(min-width:900px){.prev{grid-template-columns:1fr 1fr}}
+.phone{width:min(320px,100%);margin:auto;background:#050a1a;border:8px solid #1d2a52;border-radius:36px;padding:18px;box-shadow:0 30px 70px rgba(0,0,0,.5)}
+.bal{background:linear-gradient(135deg,#059669,var(--em));color:#04231a;border-radius:18px;padding:18px;margin:10px 0 14px}
+.bal small{opacity:.75}.bal h3{font-size:2rem;font-variant-numeric:tabular-nums}
+.badge{display:inline-block;padding:5px 12px;border-radius:99px;font-size:.78rem;font-weight:700;background:rgba(245,185,40,.18);color:#f5b928;border:1px solid #f5b928}
+.badge.silver{background:rgba(190,200,220,.15);color:#c0c8d8;border-color:#c0c8d8}.badge.bronze{background:rgba(205,127,50,.18);color:#e0955a;border-color:#cd7f32}.badge.locked{background:#222c4d;color:var(--mut);border-color:#33405f}
+.tx{list-style:none;margin:12px 0;max-height:150px;overflow:auto}
+.tx li{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--bd);font-size:.88rem}
+.tx li em{color:var(--em);font-style:normal;font-weight:700}.tx li em.neg{color:#f87171}
+.wd{width:100%;padding:13px;border-radius:12px;background:transparent;border:1px solid var(--em);color:var(--em);font-weight:700;transition:.2s}
+.wd:hover{background:var(--em);color:#04231a}
+.modal{position:fixed;inset:0;background:rgba(3,7,20,.8);display:none;place-items:center;z-index:100;padding:16px;overflow:auto}
+.modal.on{display:grid}
+.mbox{position:relative;animation:f .3s}
+.x{position:absolute;top:-12px;right:-12px;width:34px;height:34px;border-radius:50%;background:var(--navy3);border:1px solid var(--bd);z-index:2}
+.dlg{background:var(--navy2);border:1px solid var(--bd);border-radius:18px;padding:24px;width:min(360px,100%)}
+.dlg input{width:100%;padding:12px;border-radius:10px;border:1px solid var(--bd);background:var(--navy);color:var(--tx);margin:12px 0;font:inherit}
+.dlg .row{display:flex;gap:10px}.dlg .row .btn{flex:1;justify-content:center}
+footer{background:#070d20;border-top:1px solid var(--bd);padding:48px 0 24px;color:var(--mut);font-size:.9rem}
+.fg{display:grid;gap:28px;margin-bottom:28px}
+@media(min-width:760px){.fg{grid-template-columns:1.6fr 1fr 1fr 1fr}}
+footer h4{color:var(--tx);margin-bottom:10px}footer li{list-style:none;margin:6px 0}footer a:hover{color:var(--em)}
+select{background:var(--navy2);color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:9px 12px;font:inherit}
+.legal{border-top:1px solid var(--bd);padding-top:18px;font-size:.78rem;line-height:1.6}
+#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,120px);background:var(--em);color:#04231a;padding:12px 22px;border-radius:99px;font-weight:600;transition:.35s;z-index:200;max-width:90%;text-align:center}
+#toast.on{transform:translate(-50%,0)}
+.rv{opacity:0;transform:translateY(24px);transition:.7s}.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+<a href="#home" class="logo"><i>₹</i>Save<b>Sum</b></a>
+<nav id="nav"><ul>
+<li><a href="#home">Home</a></li><li><a href="#calculator">Calculator</a></li><li><a href="#features">Features</a></li><li><a href="#tiers">Tiers</a></li><li><a href="#dashboard">Dashboard Preview</a></li>
+</ul></nav>
+<div style="display:flex;gap:12px;align-items:center"><button class="btn" data-toast="Coming soon: SaveSum app launching on Android & iOS">Get App</button><button class="menu" id="menu" aria-label="Menu">☰</button></div>
+</div></header>
+
+<main>
+<section class="hero" id="home"><div class="wrap grid">
+<div>
+<span class="tag" data-i18n="tag">Gig-economy insurtech</span>
+<h1 id="h1">Automated Micro-Savings &amp; <span>Zero-Premium</span> Health Insurance for Gig Workers</h1>
+<p id="hp">We turn daily gig payouts into micro-savings that unlock tiered health &amp; accident insurance. No monthly premiums. Your balance stays yours to withdraw.</p>
+<div class="cta"><a class="btn" href="#calculator">Try the Calculator →</a><button class="btn ghost" data-open="dash">Preview Dashboard</button></div>
+</div>
+<div class="live" id="live">
+<small><span class="pulse"></span>Live auto-saved today</small>
+<div class="amt" id="liveAmt">₹0.00</div>
+<small>Simulated from a ₹1,200/day payout at 3%</small>
+<div class="sw"><span id="swLbl">Auto-save is ON</span><button class="toggle on" id="autoTg" aria-label="Toggle auto-save"></button></div>
+</div>
+</div></section>
+
+<section id="calculator"><div class="wrap">
+<span class="tag">Calculator</span><h2>See your savings &amp; insurance unlock</h2>
+<p class="sub">Move the sliders to match your daily earnings. Coverage unlocks automatically as your emergency fund grows.</p>
+<div class="calc">
+<div class="card">
+<div class="field"><label>Daily earnings <b id="eV">₹1,200</b></label><input type="range" id="earn" min="500" max="3000" step="50" value="1200"></div>
+<div class="field"><label>Savings rate <b id="rV">3%</b></label><input type="range" id="rate" min="2" max="10" step="1" value="3"></div>
+<p class="note">Assumes 26 working days a month. Projections are illustrative, not guaranteed returns.</p>
+</div>
+<div class="card">
+<div class="outs">
+<div class="out"><small>Daily saved</small><strong id="oD">₹0</strong></div>
+<div class="out"><small>Monthly fund balance</small><strong id="oM">₹0</strong></div>
+</div>
+<div class="tier locked" id="tierBox"><div class="ico" id="tIco">🔒</div><small class="note">Insurance tier unlocked</small><h3 id="tName">Locked</h3><div id="tCov" class="note">Save ₹500 to unlock Bronze</div></div>
+<div class="bar"><i id="tBar"></i></div><div class="note" id="tNext"></div>
+</div>
+</div></div></section>
+
+<section id="features"><div class="wrap">
+<span class="tag">Features</span><h2>Built around irregular daily income</h2>
+<p class="sub">Fixed monthly premiums don't fit volatile earnings. SaveSum adapts to every payout.</p>
+<div class="feat">
+<div class="card rv"><div class="ico">⚡</div><h3>Automated Daily Micro-Deductions</h3><p>Auto-saves a 2–5% slice of every gig payout. No manual budgeting, zero friction.</p></div>
+<div class="card rv"><div class="ico">💧</div><h3>100% Liquid Withdrawals</h3><p>Your balance is a spendable emergency fund. Withdraw for bike repairs or medical bills anytime.</p></div>
+<div class="card rv"><div class="ico">🛡️</div><h3>Instant Zero Out-of-Pocket Insurance</h3><p>Health &amp; accident cover unlocks through your savings, not monthly premiums.</p></div>
+<div class="card rv"><div class="ico">🗣️</div><h3>Multi-Language Support</h3><p>English, Hindi, Marathi and more, for a simple, zero-friction onboarding.</p></div>
+</div></div></section>
+
+<section id="tiers" style="background:var(--navy2)"><div class="wrap">
+<span class="tag">Tiers &amp; Audiences</span><h2>Coverage that grows with your balance</h2>
+<p class="sub">Switch between individual riders and delivery platforms to see who benefits and how.</p>
+<div class="tabs" id="tabs"><button class="on" data-t="b2c">Gig Worker (B2C)</button><button data-t="b2b">Enterprise Fleet (B2B)</button></div>
+<div class="pane on" id="b2c">
+<div class="card"><h3 style="margin-bottom:10px">For delivery riders &amp; drivers</h3><ul>
+<li>Build an instant emergency cash buffer</li><li>Peace of mind during risky shifts</li><li>Independence from predatory moneylenders</li><li>Dignity and respect as a reliable family provider</li></ul></div>
+<div class="card"><h3 style="margin-bottom:10px">Insurance tiers (unlocked by savings)</h3><ul>
+<li><b>Bronze</b>: ₹50,000 coverage</li><li><b>Silver</b>: ₹1,00,000 coverage</li><li><b>Gold</b>: ₹2,00,000 coverage</li><li>Underlying balance always remains yours to withdraw</li></ul></div>
+</div>
+<div class="pane" id="b2b">
+<div class="card"><h3 style="margin-bottom:10px">For delivery &amp; mobility platforms</h3><ul>
+<li>Lower worker churn through a real safety net</li><li>Reduced onboarding costs</li><li>Support for Social Security Code obligations</li><li>Plug-in payout integration via APIs</li></ul>
+<div class="chips"><span>Zomato</span><span>Swiggy</span><span>Zepto</span></div></div>
+<div class="card"><h3 style="margin-bottom:10px">Fleet-level value</h3><ul>
+<li>Higher retention through embedded benefits</li><li>Platform insurance that no longer lapses off-duty</li><li>Formalizes unbanked daily cashflows</li><li>Zero payroll burden for the platform</li></ul></div>
+</div>
+</div></section>
+
+<div class="strip"><div class="wrap mets">
+<div><b data-n="5400" data-p="₹" data-s=" Cr">₹0</b><span>TAM</span></div>
+<div><b data-n="2160" data-p="₹" data-s=" Cr">₹0</b><span>SAM</span></div>
+<div><b data-n="3.63" data-p="₹" data-s=" Cr" data-d="2">₹0</b><span>SOM</span></div>
+<div><b data-n="15" data-p="" data-s="M → 23.5M">0</b><span>Gig workers in India by 2030 (NITI Aayog)</span></div>
+</div></div>
+
+<section id="dashboard"><div class="wrap prev">
+<div><span class="tag">Dashboard Preview</span><h2>Your safety net, in one screen</h2>
+<p class="sub">Check your liquid balance, watch daily micro-deposits arrive, see your active coverage and withdraw in an emergency.</p>
+<div class="cta"><button class="btn" data-open="dash">Open Full Preview</button><button class="btn ghost" id="addDep">+ Simulate a Payout</button></div></div>
+<div class="phone" id="phoneHost"></div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+<div class="fg">
+<div><div class="logo" style="margin-bottom:10px"><i>₹</i>Save<b>Sum</b></div><p>Automated micro-savings that unlock tiered health &amp; accident insurance for India's gig workers.</p><p style="margin-top:10px">✉ <a href="mailto:hello@savesum.in">hello@savesum.in</a></p></div>
+<div><h4>Product</h4><ul><li><a href="#calculator">Calculator</a></li><li><a href="#features">Features</a></li><li><a href="#tiers">Tiers</a></li></ul></div>
+<div><h4>Company</h4><ul><li><a href="#" data-toast="About page coming soon">About</a></li><li><a href="#" data-toast="Partner enquiries: hello@savesum.in">Partners</a></li><li><a href="#" data-toast="Privacy policy coming soon">Privacy</a></li></ul></div>
+<div><h4>Language</h4><select id="lang"><option value="en">English</option><option value="hi">हिन्दी</option><option value="mr">मराठी</option><option value="ta">தமிழ்</option><option value="bn">বাংলা</option></select></div>
+</div>
+<p class="legal">Disclaimer: SaveSum is a student venture prototype. Figures shown are illustrative projections. Insurance products are subject to IRDAI micro-insurance regulations and underwriting partners; coverage, tier thresholds and eligibility are indicative and not an offer or guarantee. Savings are not bank deposits. © 2026 SaveSum.</p>
+</div></footer>
+
+<div class="modal" id="dash"><div class="mbox"><button class="x" data-close>✕</button><div class="phone" id="phoneModal"></div></div></div>
+<div class="modal" id="wdM"><div class="dlg"><h3>Emergency withdrawal</h3><p class="note" style="margin-top:6px">Available: <b id="wdAvail"></b>. Funds are 100% yours. Note: dropping below a tier threshold may lower your coverage.</p><input type="number" id="wdAmt" placeholder="Amount in ₹" min="1"><div class="row"><button class="btn ghost" data-close>Cancel</button><button class="btn" id="wdGo">Withdraw</button></div></div></div>
+<div id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const inr=n=>"₹"+Math.round(n).toLocaleString("en-IN");
+const TIERS=[{n:"Bronze",min:500,cov:"₹50,000",ico:"🥉",c:"bronze"},{n:"Silver",min:1500,cov:"₹1,00,000",ico:"🥈",c:"silver"},{n:"Gold",min:3000,cov:"₹2,00,000",ico:"🥇",c:"gold"}];
+const tierFor=b=>[...TIERS].reverse().find(t=>b>=t.min);
+let tt;const toast=m=>{const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("on"),2800)};
+document.addEventListener("click",e=>{
+ const t=e.target.closest("[data-toast]");if(t){e.preventDefault();toast(t.dataset.toast)}
+ const o=e.target.closest("[data-open]");if(o){renderDash();$("#"+o.dataset.open).classList.add("on")}
+ if(e.target.closest("[data-close]")||e.target.classList.contains("modal"))$$(".modal").forEach(m=>m.classList.remove("on"));
+});
+$("#menu").onclick=()=>$("#nav").classList.toggle("open");
+$$("#nav a").forEach(a=>a.onclick=()=>$("#nav").classList.remove("open"));
+
+let auto=true,liveV=0;
+const perTick=()=>1200*.03/40;
+setInterval(()=>{if(auto){liveV=Math.min(liveV+perTick(),1200*.03);$("#liveAmt").textContent="₹"+liveV.toFixed(2);if(liveV>=36)liveV=0}},500);
+$("#autoTg").onclick=function(){auto=!auto;this.classList.toggle("on",auto);$("#swLbl").textContent="Auto-save is "+(auto?"ON":"OFF");$("#live").classList.toggle("off",!auto)};
+
+const earn=$("#earn"),rate=$("#rate");
+const fill=r=>r.style.setProperty("--p",((r.value-r.min)/(r.max-r.min)*100)+"%");
+function calc(){
+ fill(earn);fill(rate);
+ const e=+earn.value,r=+rate.value,d=e*r/100,m=d*26;
+ $("#eV").textContent=inr(e);$("#rV").textContent=r+"%";$("#oD").textContent=inr(d);$("#oM").textContent=inr(m);
+ const t=tierFor(m),box=$("#tierBox");
+ box.className="tier "+(t?t.c:"locked");
+ $("#tIco").textContent=t?t.ico:"🔒";$("#tName").textContent=t?t.n:"Locked";
+ $("#tCov").textContent=t?t.cov+" health & accident cover":"Save "+inr(TIERS[0].min)+" to unlock Bronze";
+ const nx=TIERS.find(x=>m<x.min);
+ $("#tBar").style.width=(nx?Math.min(100,m/nx.min*100):100)+"%";
+ $("#tNext").textContent=nx?inr(nx.min-m)+" more to reach "+nx.n+" ("+nx.cov+")":"Top tier reached 🎉";
+}
+earn.oninput=rate.oninput=calc;calc();
+
+$$("#tabs button").forEach(b=>b.onclick=()=>{$$("#tabs button").forEach(x=>x.classList.toggle("on",x===b));$$(".pane").forEach(p=>p.classList.toggle("on",p.id===b.dataset.t))});
+
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(!en.isIntersecting)return;en.target.classList.add("in");
+ if(en.target.dataset.n){const el=en.target,n=+el.dataset.n,d=+(el.dataset.d||0),t0=performance.now();
+ (function f(t){const k=Math.min((t-t0)/1200,1),v=n*(1-Math.pow(1-k,3));el.textContent=el.dataset.p+(d?v.toFixed(d):Math.round(v).toLocaleString("en-IN"))+el.dataset.s;if(k<1)requestAnimationFrame(f)})(t0)}
+ io.unobserve(en.target)}),{threshold:.3});
+$$(".rv,[data-n]").forEach(el=>io.observe(el));
+
+const S={bal:2340,tx:[["Today","Zomato payout",36],["Yesterday","Swiggy payout",42],["2 days ago","Zepto payout",31],["3 days ago","Swiggy payout",38]]};
+function dashHTML(){
+ const t=tierFor(S.bal);
+ return `<div style="display:flex;justify-content:space-between;align-items:center"><b>SaveSum</b><span class="badge ${t?t.c:"locked"}">${t?t.ico+" "+t.n:"🔒 Locked"}</span></div>
+ <div class="bal"><small>Liquid savings balance</small><h3>${inr(S.bal)}</h3><small>100% withdrawable</small></div>
+ <div class="note">Active coverage</div><div style="margin:4px 0 10px"><b>${t?t.cov+" health & accident":"None yet"}</b></div>
+ <div class="note">Recent micro-deposits</div>
+ <ul class="tx">${S.tx.map(x=>`<li><span>${x[1]}<br><small class="note">${x[0]}</small></span><em class="${x[2]<0?"neg":""}">${x[2]<0?"−":"+"}${inr(Math.abs(x[2]))}</em></li>`).join("")}</ul>
+ <button class="wd" data-wd>🚑 Emergency Withdraw</button>`;
+}
+function renderDash(){$("#phoneHost").innerHTML=$("#phoneModal").innerHTML=dashHTML()}
+renderDash();
+document.addEventListener("click",e=>{if(e.target.closest("[data-wd]")){$("#wdAvail").textContent=inr(S.bal);$("#wdAmt").value="";$("#wdM").classList.add("on")}});
+$("#wdGo").onclick=()=>{const a=Math.floor(+$("#wdAmt").value);
+ if(!a||a<=0)return toast("Enter a valid amount");
+ if(a>S.bal)return toast("Amount exceeds available balance");
+ S.bal-=a;S.tx.unshift(["Just now","Emergency withdrawal",-a]);renderDash();$("#wdM").classList.remove("on");toast(inr(a)+" sent to your linked UPI (demo)")};
+$("#addDep").onclick=()=>{const a=Math.round(25+Math.random()*30),p=["Zomato","Swiggy","Zepto"][Math.floor(Math.random()*3)];
+ S.bal+=a;S.tx.unshift(["Just now",p+" payout",a]);renderDash();toast("+"+inr(a)+" auto-saved from "+p+" payout")};
+
+const L={
+ en:["Automated Micro-Savings & <span>Zero-Premium</span> Health Insurance for Gig Workers","We turn daily gig payouts into micro-savings that unlock tiered health & accident insurance. No monthly premiums. Your balance stays yours to withdraw."],
+ hi:["गिग वर्कर्स के लिए ऑटोमैटिक माइक्रो-सेविंग्स और <span>ज़ीरो-प्रीमियम</span> हेल्थ इंश्योरेंस","हम रोज़ की कमाई को माइक्रो-सेविंग्स में बदलते हैं जो स्वास्थ्य और दुर्घटना बीमा अनलॉक करती हैं। कोई मासिक प्रीमियम नहीं।"],
+ mr:["गिग वर्कर्ससाठी ऑटोमॅटिक मायक्रो-सेव्हिंग्ज आणि <span>झिरो-प्रीमियम</span> आरोग्य विमा","आम्ही रोजच्या कमाईचे मायक्रो-सेव्हिंग्जमध्ये रूपांतर करतो, ज्यातून आरोग्य व अपघात विमा खुला होतो. मासिक प्रीमियम नाही."]
+};
+$("#lang").onchange=e=>{const v=e.target.value,l=L[v];if(l){$("#h1").innerHTML=l[0];$("#hp").textContent=l[1].replace(/&amp;/g,"&")}else toast("Full "+e.target.selectedOptions[0].text+" support coming soon; headline demo available in हिन्दी / मराठी")};
+</script>
+</body>
+</html>
